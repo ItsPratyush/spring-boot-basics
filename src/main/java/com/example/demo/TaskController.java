@@ -5,6 +5,7 @@ import com.example.demo.Task;
 import java.util.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/tasks")
@@ -26,11 +27,20 @@ public class TaskController {
 		
 	}
 	
+//	@PostMapping
+//	public Task createTask(@RequestBody Task task) {
+////		tasks.add(task);
+////		return tasks;
+//		return taskrepository.save(task);
+//	}
+	
 	@PostMapping
-	public Task createTask(@RequestBody Task task) {
-//		tasks.add(task);
-//		return tasks;
-		return taskrepository.save(task);
+	public Task createTask(@Valid @RequestBody TaskDto taskDto) {
+		// task entity
+		Task task = new Task();
+		task.setTitle(taskDto.getTitle());
+		task.setDescription(taskDto.getDescription());
+		return taskRepository.save(task);
 	}
 	
 	@PutMapping("/{id}")
