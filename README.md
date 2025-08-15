@@ -1,4 +1,4 @@
-# HTTP Request Handler with REST API
+# HTTP Request Handler (Task Manager) with REST API
 
 Key Features of the Handler 🛠️
 --
