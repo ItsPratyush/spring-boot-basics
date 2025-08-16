@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.Task;
+//import com.example.demo.Task;
 
 import java.util.*;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +40,7 @@ public class TaskController {
 		Task task = new Task();
 		task.setTitle(taskDto.getTitle());
 		task.setDescription(taskDto.getDescription());
-		return taskRepository.save(task);
+		return taskrepository.save(task);
 	}
 	
 	@PutMapping("/{id}")
