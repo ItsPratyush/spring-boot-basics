@@ -1,23 +1,149 @@
-# HTTP Request Handler (Task Manager) with REST API
+# 📝 Task Manager API
 
-Key Features of the Handler 🛠️
---
-- RESTful Endpoints: The controller exposes several endpoints under the base path /tasks to handle different HTTP requests.
-- Dependency Injection: It uses Spring's @Autowired annotation to inject an instance of the TaskRepository, which allows the controller to interact with the database.
-- CRUD Operations: The controller provides the following functionalities for managing tasks:
-- Create Task (POST /tasks): Accepts a JSON object in the request body and saves it as a new task in the database.
-- Get All Tasks (GET /tasks): Retrieves and returns a list of all tasks stored in the database.
-- Update Task (PUT /tasks/{id}): Updates an existing task by its ID with the data provided in the request body. If the task doesn't exist, it creates a new one.
+A simple **CRUD Task Manager Application** built with **Spring Boot** and **MySQL**, enhanced with **JWT Authentication** for secure access.  
+This project is designed to demonstrate **backend development skills** including REST APIs, exception handling, authentication, and database integration.  
 
-How It Works ⚙️
---
-The handler is built on the Spring Framework and leverages Spring Data JPA to handle database interactions. Instead of writing raw SQL queries, the TaskRepository interface provides predefined methods like findAll(), save(), and deleteById() that perform the necessary database operations.
+---
 
-The @RestController and @RequestMapping annotations are what make this class a web handler. They tell Spring to automatically handle incoming HTTP requests and map them to the correct methods within the class. This design follows the REST architectural style, making it a common pattern for building web APIs.
+## ⚡ Features
+- ✅ **User Authentication** (Signup & Login with JWT)  
+- ✅ **Secure Endpoints** (JWT required for task operations)  
+- ✅ **CRUD Operations for Tasks**  
+  - Create a new task  
+  - Retrieve all tasks / task by ID  
+  - Update existing tasks  
+  - Delete tasks  
+- ✅ **Global Exception Handling**  
+- ✅ **Persistent Storage** using MySQL  
+- ✅ **DTOs & Clean Architecture**  
 
+---
 
-Using Postman 🚀
---
-- Creating Data (POST): To add a new task, send a POST request to http://localhost:8080/tasks. Set the Content-Type header to application/json and include a JSON body with the task's title and description. The database will automatically generate an ID for the new task.
-- Updating Data (PUT): To update an existing task, send a PUT request to http://localhost:8080/tasks/{id}, replacing {id} with the ID of the task you want to modify. Just like with the POST request, set the Content-Type header to application/json and include a JSON body with the updated title and description.
-- Deleting Data (DELETE): To remove a task, send a DELETE request to http://localhost:8080/tasks/{id}, replacing {id} with the ID of the task you want to delete. There's no need to include a request body for this operation.
+## 📂 Project Structure
+```
+src/main/java/com/example/taskmanager/
+│
+├── DemoApplication.java           # Entry point
+├── GlobalExceptionHandler.java    # Handles errors globally
+│
+├── auth/                          # Authentication & JWT
+│   ├── JwtUtil.java
+│   ├── JwtRequestFilter.java
+│   ├── SecurityConfig.java
+│   ├── User.java
+│   ├── UserRepository.java
+│   ├── AuthController.java
+│
+├── task/                          # Task CRUD
+│   ├── Task.java
+│   ├── TaskDTO.java
+│   ├── TaskRepository.java
+│   ├── TaskController.java
+```
+
+---
+
+## 🛠️ Tech Stack
+- **Java 17+**  
+- **Spring Boot** (Web, Security, JPA, Validation)  
+- **MySQL** (Persistent Database)  
+- **JWT (JSON Web Token)** for authentication  
+- **Lombok** for cleaner code (optional)  
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/your-username/taskmanager-api.git
+cd taskmanager-api
+```
+
+### 2️⃣ Configure Database
+Update `application.properties` with your MySQL credentials:
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/taskmanager
+spring.datasource.username=root
+spring.datasource.password=yourpassword
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
+
+### 3️⃣ Build & Run
+```bash
+./mvnw spring-boot:run
+```
+
+---
+
+## 🔐 Authentication Flow
+
+### 1. Register User  
+```http
+POST /auth/signup
+Content-Type: application/json
+
+{
+  "username": "john",
+  "password": "password123"
+}
+```
+
+### 2. Login User  
+```http
+POST /auth/login
+Content-Type: application/json
+
+{
+  "username": "john",
+  "password": "password123"
+}
+```
+✅ Response will include a **JWT token**:
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiJ9..."
+}
+```
+
+### 3. Use JWT in Task Requests  
+Attach token in **Authorization Header**:  
+```
+Authorization: Bearer <your_token>
+```
+
+---
+
+## 📌 API Endpoints
+
+### Authentication
+- `POST /auth/signup` → Register new user  
+- `POST /auth/login` → Authenticate and get JWT  
+
+### Task Management (JWT Required)
+- `POST /tasks` → Create new task  
+- `GET /tasks` → Get all tasks  
+- `GET /tasks/{id}` → Get task by ID  
+- `PUT /tasks/{id}` → Update task  
+- `DELETE /tasks/{id}` → Delete task  
+
+---
+
+## 🧪 Testing
+- Use **Postman** or **cURL** to test API endpoints.  
+- First signup & login to get your JWT token.  
+- Then attach token in request headers for all `/tasks` endpoints.  
+
+---
+
+## 🚀 Future Improvements
+- Role-based access (Admin/User)  
+- Pagination & sorting for tasks  
+- Dockerize the application  
+- Add frontend (React/Angular/Vue)  
+
+---
+
+## 👤 Author 
+- GitHub: [ItsPratyush](https://github.com/ItsPratyush)  
